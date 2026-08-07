@@ -171,7 +171,7 @@ html.js [data-reveal].is-visible{ opacity:1; transform:translateY(0); }
 }
 .hero-media::before{
   content:""; position:absolute; inset:0; z-index:1;
-  background:linear-gradient(180deg, rgba(4,9,28,.22) 0%, rgba(4,9,28,.12) 38%, rgba(4,9,28,.55) 68%, rgba(4,9,28,.94) 100%);
+  background:linear-gradient(180deg, rgba(4,9,28,.6) 0%, rgba(4,9,28,.48) 30%, rgba(4,9,28,.58) 55%, rgba(4,9,28,.78) 75%, rgba(4,9,28,.96) 100%);
 }
 .hero-inner{ position:relative; z-index:2; padding:180px 0 96px; width:100%; }
 .hero-tag{ display:inline-flex; gap:10px; align-items:center; padding:9px 18px; border:1px solid rgba(233,211,155,.4); border-radius:var(--radius-pill); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; font-weight:600; margin-bottom:28px; color:var(--dourado-300); }
