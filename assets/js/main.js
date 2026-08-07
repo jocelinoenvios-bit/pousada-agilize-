@@ -91,53 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Lightbox gallery
-  const lightboxTriggers = Array.from(document.querySelectorAll('[data-lightbox]'));
-  const lightbox = document.getElementById('lightbox');
-  if (lightboxTriggers.length && lightbox) {
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    let current = 0;
-
-    const openAt = (index) => {
-      current = (index + lightboxTriggers.length) % lightboxTriggers.length;
-      const trigger = lightboxTriggers[current];
-      const img = trigger.querySelector('img');
-      lightboxImg.src = img ? img.src : '';
-      lightboxImg.alt = img ? img.alt : '';
-      lightboxCaption.textContent = trigger.dataset.caption || '';
-      lightbox.classList.add('is-open');
-    };
-    const close = () => lightbox.classList.remove('is-open');
-
-    lightboxTriggers.forEach((trigger, i) => trigger.addEventListener('click', () => openAt(i)));
-    document.getElementById('lightboxClose')?.addEventListener('click', close);
-    document.getElementById('lightboxPrev')?.addEventListener('click', () => openAt(current - 1));
-    document.getElementById('lightboxNext')?.addEventListener('click', () => openAt(current + 1));
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
-    document.addEventListener('keydown', (e) => {
-      if (!lightbox.classList.contains('is-open')) return;
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowLeft') openAt(current - 1);
-      if (e.key === 'ArrowRight') openAt(current + 1);
-    });
-  }
-
-  // Rating bars (avaliações) animate their width when scrolled into view
-  const ratingBars = document.querySelectorAll('.rating-bar-fill');
-  if ('IntersectionObserver' in window && ratingBars.length) {
-    const barIO = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.style.width = entry.target.dataset.value + '%';
-        barIO.unobserve(entry.target);
-      });
-    }, { threshold: 0.4 });
-    ratingBars.forEach(el => barIO.observe(el));
-  } else {
-    ratingBars.forEach(el => el.style.width = el.dataset.value + '%');
-  }
-
   // Testimonials drag-scroll (basic pointer support)
   const track = document.querySelector('.testi-track');
   if (track) {
