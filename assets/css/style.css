@@ -149,6 +149,10 @@ html.js [data-reveal].is-visible{ opacity:1; transform:translateY(0); }
 }
 .hero-media{ position:absolute; inset:0; z-index:0; overflow:hidden; }
 .hero-media video, .hero-media .hero-fallback{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+/* "Ken Burns" slow drift — reads as motion/video language until a real institutional video replaces the still */
+.hero-media img.hero-fallback{ animation:heroDrift 26s ease-in-out infinite alternate; will-change:transform; }
+@keyframes heroDrift{ 0%{ transform:scale(1.0) translate3d(0,0,0); } 100%{ transform:scale(1.09) translate3d(-1%,-1%,0); } }
+@media (prefers-reduced-motion: reduce){ .hero-media img.hero-fallback{ animation:none; } }
 .hero-media .hero-fallback{
   background:
     radial-gradient(ellipse at 25% 15%, rgba(199,162,78,.16), transparent 55%),
@@ -238,8 +242,8 @@ html.js [data-reveal].is-visible{ opacity:1; transform:translateY(0); }
 @media (max-width:960px){ .grid-3,.grid-4{ grid-template-columns:repeat(2,1fr);} }
 @media (max-width:640px){ .grid-3,.grid-2,.grid-4{ grid-template-columns:1fr;} }
 
-.card{ background:var(--branco); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-card); transition:transform .5s var(--ease), box-shadow .5s var(--ease); border:1px solid var(--hair-light); }
-.card:hover{ transform:translateY(-8px); box-shadow:0 34px 70px -26px rgba(4,9,28,.4); }
+.card{ background:var(--branco); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-card); transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s; border:1px solid var(--hair-light); }
+.card:hover{ transform:translateY(-8px); box-shadow:0 34px 70px -26px rgba(4,9,28,.4); border-color:rgba(201,162,39,.45); }
 .card:hover .photo::before{ transform:scale(1.06); }
 .card .photo::before{ transition:transform .9s var(--ease); }
 .card-body{ padding:28px; }
@@ -266,6 +270,20 @@ html.js [data-reveal].is-visible{ opacity:1; transform:translateY(0); }
 .split > div{ padding:120px 64px; display:flex; flex-direction:column; justify-content:center; }
 .split .photo{ border-radius:0; height:100%; min-height:500px; }
 @media (max-width:920px){ .split{ grid-template-columns:1fr; } .split > div{ padding:76px 28px; } }
+
+/* ---------- Cinema band: full-bleed edge-to-edge photo pause ---------- */
+.cinema-band{ position:relative; min-height:78vh; display:flex; align-items:center; justify-content:center; overflow:hidden; color:var(--branco); }
+.cinema-band img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; animation:heroDrift 30s ease-in-out infinite alternate; }
+.cinema-band::before{ content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(4,9,28,.55) 0%, rgba(4,9,28,.25) 35%, rgba(4,9,28,.65) 100%); }
+.cinema-band .container{ position:relative; z-index:2; text-align:center; }
+.cinema-band h2{ color:var(--branco); font-size:clamp(2rem,4.6vw,3.4rem); max-width:18ch; margin:0 auto .4em; }
+.cinema-band .lede{ color:rgba(255,255,255,.82); margin:0 auto; }
+@media (prefers-reduced-motion: reduce){ .cinema-band img{ animation:none; } }
+
+/* ---------- Trust badges (near reserva) ---------- */
+.trust-row{ display:flex; flex-wrap:wrap; gap:28px; padding:26px 30px; background:var(--marfim-100); border-radius:var(--radius-md); border:1px solid var(--hair-light); }
+.trust-item{ display:flex; align-items:center; gap:12px; font-size:.86rem; font-weight:600; color:var(--tinta-700); }
+.trust-item svg{ color:var(--dourado-600); flex-shrink:0; }
 
 /* ---------- Reviews / Avaliações ---------- */
 .rating-summary{ display:flex; gap:56px; flex-wrap:wrap; align-items:center; padding:44px; background:var(--branco); border-radius:var(--radius-md); border:1px solid var(--hair-light); box-shadow:var(--shadow-card); margin-bottom:50px; }
