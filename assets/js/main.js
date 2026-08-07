@@ -91,17 +91,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Lightbox gallery
+  // Lightbox gallery — triggers sharing a data-lightbox-group cycle together
+  // (used for per-room mini galleries); triggers without a group share one
+  // implicit global group, preserving the whole-page gallery behavior.
   const lightboxTriggers = Array.from(document.querySelectorAll('[data-lightbox]'));
   const lightbox = document.getElementById('lightbox');
   if (lightboxTriggers.length && lightbox) {
     const lightboxImg = document.getElementById('lightboxImg');
     const lightboxCaption = document.getElementById('lightboxCaption');
+    let activeGroup = [];
     let current = 0;
 
-    const openAt = (index) => {
-      current = (index + lightboxTriggers.length) % lightboxTriggers.length;
-      const trigger = lightboxTriggers[current];
+    const groupOf = (trigger) => {
+      const key = trigger.dataset.lightboxGroup || '__all__';
+      return lightboxTriggers.filter(t => (t.dataset.lightboxGroup || '__all__') === key);
+    };
+
+    const openAt = (group, index) => {
+      activeGroup = group;
+      current = (index + activeGroup.length) % activeGroup.length;
+      const trigger = activeGroup[current];
       const img = trigger.querySelector('img');
       lightboxImg.src = img ? img.src : '';
       lightboxImg.alt = img ? img.alt : '';
@@ -110,16 +119,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const close = () => lightbox.classList.remove('is-open');
 
-    lightboxTriggers.forEach((trigger, i) => trigger.addEventListener('click', () => openAt(i)));
+    lightboxTriggers.forEach((trigger) => trigger.addEventListener('click', () => {
+      const group = groupOf(trigger);
+      openAt(group, group.indexOf(trigger));
+    }));
     document.getElementById('lightboxClose')?.addEventListener('click', close);
-    document.getElementById('lightboxPrev')?.addEventListener('click', () => openAt(current - 1));
-    document.getElementById('lightboxNext')?.addEventListener('click', () => openAt(current + 1));
+    document.getElementById('lightboxPrev')?.addEventListener('click', () => openAt(activeGroup, current - 1));
+    document.getElementById('lightboxNext')?.addEventListener('click', () => openAt(activeGroup, current + 1));
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('is-open')) return;
       if (e.key === 'Escape') close();
-      if (e.key === 'ArrowLeft') openAt(current - 1);
-      if (e.key === 'ArrowRight') openAt(current + 1);
+      if (e.key === 'ArrowLeft') openAt(activeGroup, current - 1);
+      if (e.key === 'ArrowRight') openAt(activeGroup, current + 1);
     });
   }
 
@@ -166,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `Hóspedes: ${encodeURIComponent(data.hospedes || '')}%0A` +
         `Acomodação: ${encodeURIComponent(data.acomodacao || '')}%0A` +
         `Mensagem: ${encodeURIComponent(data.mensagem || '')}`;
-      window.open(`https://wa.me/5588900000000?text=${msg}`, '_blank');
+      window.open(`https://wa.me/5588997135560?text=${msg}`, '_blank');
     });
   }
 
